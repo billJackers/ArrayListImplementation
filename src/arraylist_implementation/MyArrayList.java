@@ -1,3 +1,5 @@
+package arraylist_implementation;
+
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -84,7 +86,7 @@ public class MyArrayList<E> implements MyList<E> {
      * O(n)
      */
     public void clear() {
-        for (int i = 0; i < items.length) {
+        for (int i = 0; i < items.length; i++) {
             items[i] = null;
         }
         size = 0;
@@ -173,6 +175,17 @@ public class MyArrayList<E> implements MyList<E> {
     public boolean add(int index, E o) {
 
         // one way: add at the end and then shift the elements around
+        try {
+            for (int i = size-1; i >= index; i--) {
+                items[i+1] = items[i];
+            }
+            size++;
+            items[index] = o;
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+
     }
 
     /**
@@ -181,16 +194,22 @@ public class MyArrayList<E> implements MyList<E> {
      */
     public boolean equals(Object o)
     {
-        if (/* ???? */) {
+        if (items.getClass().equals(o.getClass())) {
             // o is an ArrayList
-
+            MyArrayList temp = (MyArrayList) o;
             // if the number of elements is not the same, this and o are not the
             // same
-            if ()
+            if (size != temp.size()) {
+                return false;
+            }
             // Check the elements one by one
-
+            for (int i = 0; i < size; i++) {
+                if (!items[i].equals(temp.get(i))) {
+                    return false;
+                }
+            }
             // At this point, the lists are equal
-
+            return true;
         }
         else {
             return false;
@@ -210,26 +229,40 @@ public class MyArrayList<E> implements MyList<E> {
 
         /**
          * Create an iterator for a MyArrayList
+         * O(1)
          */
         public MyIterator(MyArrayList<E> list) {
+            this.list = list;
         }
 
         /**
          * Any element left in the list?
+         * O(1)
          */
         public boolean hasNext() {
+            return index < list.size()-1;
         }
 
         /**
          * Returns the current element in the list and move to the next element
+         * O(1)
          */
         public E next() {
+
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
+
+            lastIndex = index;
+            index++;
+            return list.get(index);
         }
 
         /**
          * Removes the last object returned by next
          */
         public void remove() {
+            MyArrayList.this.remove(index);
         }
     }
 
@@ -239,5 +272,6 @@ public class MyArrayList<E> implements MyList<E> {
      * @return an iterator over the elements in this list in proper sequence.
      */
     public Iterator<E> iterator() {
+        return new MyIterator(this);
     }
 }
