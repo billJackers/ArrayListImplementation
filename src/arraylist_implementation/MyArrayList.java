@@ -20,6 +20,7 @@ public class MyArrayList<E> implements MyList<E> {
 
     /**
      * Constructs a MyArrayList with a specified capacity
+     * O(1)
      */
     public MyArrayList(int initialCapacity) {
         items = E[initialCapacity];
@@ -28,6 +29,7 @@ public class MyArrayList<E> implements MyList<E> {
 
     /**
      * Constructs a MyArrayList with a default capacity
+     * O(1)
      */
     public MyArrayList() {
         items = E[DEFAULT_CAPACITY];
@@ -36,6 +38,7 @@ public class MyArrayList<E> implements MyList<E> {
 
     /**
      * Returns the number of elements in this list.
+     * O(1)
      */
     public int size() {
         return size;
@@ -43,6 +46,7 @@ public class MyArrayList<E> implements MyList<E> {
 
     /**
      * Returns true if this list contains no elements.
+     * O(1)
      */
     public boolean isEmpty() {
         return size == 0;
@@ -50,32 +54,45 @@ public class MyArrayList<E> implements MyList<E> {
 
     /**
      * Appends the specified element to the end of this list
+     * O(n)
      */
     public boolean add(E o) {
-        // If there is no room in the array items
-        if (size < items.length) {
-            items[size] = o;
+        try {
+            // If there is no room in the array items
+            if (size < items.length) {
+                items[size] = o;
+                return true;
+            }
+            // Make room for the new element
+            E[] temp = E[size + 1];
+            for (int i = 0; i < size; i++) {
+                temp[i] = items[i];
+            }
+            // add the new element
+            temp[temp.length - 1] = o;
+            items = temp;
+            size++;
             return true;
+        } catch (Exception e) {
+            System.out.print("Error");
+            return false;
         }
-        // Make room for the new element
-        E[] temp = E[size+1];
-        for (int i = 0; i < size; i++) {
-            temp[i] = items[i];
-        }
-        // add the new element
     }
 
     /**
      * Empties this List
+     * O(n)
      */
     public void clear() {
         for (int i = 0; i < items.length) {
             items[i] = null;
         }
+        size = 0;
     }
 
     /**
      * Returns the element at the specified position in this list.
+     * O(1)
      */
     public E get(int index) {
         return items[index];
@@ -83,6 +100,7 @@ public class MyArrayList<E> implements MyList<E> {
 
     /**
      * Returns the index of the specified element (-1 if there is no match)
+     * O(n)
      */
     public int indexOf(Object o) {
         // If o is null (look for a null element in the array)
@@ -101,6 +119,7 @@ public class MyArrayList<E> implements MyList<E> {
 
     /**
      * Returns true if this list contains the specified element.
+     * O(n)
      */
     public boolean contains(Object o) {
         // easy with indexOf
@@ -110,20 +129,42 @@ public class MyArrayList<E> implements MyList<E> {
 
     /**
      * Removes the element in the List at position index
+     * O(n)
      */
     public boolean remove(int index) {
 
-        // compact the array
-
-        // let's gc do its work
-
+        try {
+            items[index] = null;
+            // compact the array
+            E[] temp = E[items.length - 1];
+            for (int i = 0; i < items.length-2; i++) {
+                if (i == index) {
+                    i++;
+                } else {
+                    temp[i] = items[i];
+                }
+            }
+            items = temp;
+            // let's gc do its work
+            return true;
+        } catch (Exception e) {
+            System.out.println("Error");
+            return false;
+        }
     }
 
     /**
      * Removes the element in the List at position index
+     * O(n)
      */
     public boolean remove(Object o) {
         // easy with indexOf and remove
+        try {
+            remove(indexOf(o));
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     /**
@@ -136,6 +177,7 @@ public class MyArrayList<E> implements MyList<E> {
 
     /**
      * Is this List equal to the specified object?
+     * O(n)
      */
     public boolean equals(Object o)
     {
@@ -144,7 +186,7 @@ public class MyArrayList<E> implements MyList<E> {
 
             // if the number of elements is not the same, this and o are not the
             // same
-
+            if ()
             // Check the elements one by one
 
             // At this point, the lists are equal
