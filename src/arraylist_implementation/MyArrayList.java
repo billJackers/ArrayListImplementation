@@ -1,7 +1,14 @@
 package arraylist_implementation;
-
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+
+/*
+
+I learned how the algorithms of the arrays were implemented.
+One thing that was particularly challenging was the equals method. To overcome this, I used the getClass() method to
+determine if the object was a MyArrayList class.
+
+ */
 
 /**
  * An implementation of MyList with an array (a longer exercise would be to
