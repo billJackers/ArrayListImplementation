@@ -165,12 +165,13 @@ public class TestMyList {
     /**
      * Returns a list as an instance of the given type
      */
+
     private static <E> MyList<E> createMyList(Class c) {
         if (c == MyArrayList.class) {
             return new MyArrayList<E>();
-        } else if (c == MyLinkedList.class) {
+        }/* else if (c == MyLinkedList.class) {
             return new MyLinkedList<E>();
-        } else {
+        } */else {
             return null;
         }
     }

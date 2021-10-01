@@ -32,7 +32,7 @@ public class MyArrayList<E> implements MyList<E> {
      * O(1)
      */
     public MyArrayList(int initialCapacity) {
-        items = E[initialCapacity];
+        items = (E[]) new Object[initialCapacity];
         size = 0;
     }
 
@@ -41,7 +41,7 @@ public class MyArrayList<E> implements MyList<E> {
      * O(1)
      */
     public MyArrayList() {
-        items = E[DEFAULT_CAPACITY];
+        items = (E[]) new Object[DEFAULT_CAPACITY];
         size = 0;
     }
 
@@ -73,13 +73,13 @@ public class MyArrayList<E> implements MyList<E> {
                 return true;
             }
             // Make room for the new element
-            E[] temp = E[size + 1];
+            Object[] temp = new Object[size + 1];
             for (int i = 0; i < size; i++) {
                 temp[i] = items[i];
             }
             // add the new element
             temp[temp.length - 1] = o;
-            items = temp;
+            items = (E[]) temp;
             size++;
             return true;
         } catch (Exception e) {
@@ -145,7 +145,7 @@ public class MyArrayList<E> implements MyList<E> {
         try {
             items[index] = null;
             // compact the array
-            E[] temp = E[items.length - 1];
+            Object[] temp = new Object[items.length - 1];
             for (int i = 0; i < items.length-2; i++) {
                 if (i == index) {
                     i++;
@@ -153,7 +153,7 @@ public class MyArrayList<E> implements MyList<E> {
                     temp[i] = items[i];
                 }
             }
-            items = temp;
+            items = (E[]) temp;
             // let's gc do its work
             return true;
         } catch (Exception e) {
