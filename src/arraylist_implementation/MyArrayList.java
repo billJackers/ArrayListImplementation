@@ -260,9 +260,9 @@ public class MyArrayList<E> implements MyList<E> {
                 throw new NoSuchElementException();
             }
 
-            lastIndex = index;
             index++;
-            return list.get(index);
+            lastIndex++;
+            return list.get(lastIndex);
         }
 
         /**
