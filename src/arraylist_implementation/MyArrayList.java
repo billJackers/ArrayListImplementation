@@ -41,8 +41,7 @@ public class MyArrayList<E> implements MyList<E> {
      * O(1)
      */
     public MyArrayList() {
-        items = (E[]) new Object[DEFAULT_CAPACITY];
-        size = 0;
+        this(DEFAULT_CAPACITY);
     }
 
     /**
@@ -70,6 +69,7 @@ public class MyArrayList<E> implements MyList<E> {
             // If there is no room in the array items
             if (size < items.length) {
                 items[size] = o;
+                size++;
                 return true;
             }
             // Make room for the new element
@@ -142,24 +142,16 @@ public class MyArrayList<E> implements MyList<E> {
      */
     public boolean remove(int index) {
 
-        try {
-            items[index] = null;
-            // compact the array
-            Object[] temp = new Object[items.length - 1];
-            for (int i = 0; i < items.length-2; i++) {
-                if (i == index) {
-                    i++;
-                } else {
-                    temp[i] = items[i];
-                }
-            }
-            items = (E[]) temp;
-            // let's gc do its work
-            return true;
-        } catch (Exception e) {
-            System.out.println("Error");
-            return false;
+        if (index < 0 || index >= this.size) {
+            throw new IndexOutOfBoundsException();
         }
+        E removed = this.items[index];
+        for (int i = index+1; i < this.size; i++) {
+            this.items[i] = this.items[i];
+        }
+        this.items[this.size-1] = null;
+        this.size--;
+        return true;
     }
 
     /**
@@ -181,17 +173,26 @@ public class MyArrayList<E> implements MyList<E> {
      */
     public boolean add(int index, E o) {
 
-        // one way: add at the end and then shift the elements around
-        try {
-            for (int i = size-1; i >= index; i--) {
-                items[i+1] = items[i];
-            }
-            size++;
-            items[index] = o;
-            return true;
-        } catch (Exception e) {
-            return false;
+        if (index == 0 || index > this.size) {
+            throw new IndexOutOfBoundsException();
         }
+
+        // one way: add at the end and then shift the elements around
+        if (size < items.length) {
+            items[size] = o;
+            size++;
+            return true;
+        }
+
+        // Make room for the new element
+        E[] temp = (E[]) new Object[items.length+1];
+        for (int i = 0; i < size; i++) {
+            temp[i] = items[i];
+        }
+        items = temp;
+        size++;
+        items[size] = o;
+        return true;
 
     }
 
@@ -201,12 +202,12 @@ public class MyArrayList<E> implements MyList<E> {
      */
     public boolean equals(Object o)
     {
-        if (items.getClass().equals(o.getClass())) {
+        if (o != null && items.getClass().equals(o.getClass())) {
             // o is an ArrayList
             MyArrayList temp = (MyArrayList) o;
             // if the number of elements is not the same, this and o are not the
             // same
-            if (size != temp.size()) {
+            if (this.size != temp.size()) {
                 return false;
             }
             // Check the elements one by one
@@ -247,7 +248,7 @@ public class MyArrayList<E> implements MyList<E> {
          * O(1)
          */
         public boolean hasNext() {
-            return index < list.size()-1;
+            return index < list.size();
         }
 
         /**
