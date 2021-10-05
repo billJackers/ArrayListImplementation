@@ -1,7 +1,5 @@
-package arraylist_implementation;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-
 /*
 
 I learned how the algorithms of the arrays were implemented.
