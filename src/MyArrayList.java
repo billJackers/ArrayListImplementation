@@ -144,12 +144,11 @@ public class MyArrayList<E> implements MyList<E> {
         if (index < 0 || index > this.items.length-1) {
             throw new IndexOutOfBoundsException();
         }
-        E removed = this.items[index];
-        for (int i = index; i < this.size; i++) {
-            this.items[i] = this.items[i + 1];
+        for (int i = index + 1; i < size; i++) {
+            items[i-1] = items[i];
         }
-        this.items[items.length-1] = null;
-        this.size--;
+        size--;
+        this.items[size] = null;
         return true;
     }
 
@@ -160,6 +159,7 @@ public class MyArrayList<E> implements MyList<E> {
     public boolean remove(Object o) {
         // easy with indexOf and remove
         try {
+            if (indexOf(o) == -1) return false;
             remove(indexOf(o));
             return true;
         } catch (Exception e) {
@@ -270,6 +270,8 @@ public class MyArrayList<E> implements MyList<E> {
          */
         public void remove() {
             MyArrayList.this.remove(lastIndex);
+            index--;
+            lastIndex--;
         }
     }
 
