@@ -47,7 +47,7 @@ public class TestMyList {
         System.out.println("the list and the copy are the same: "
                 + l.equals(copy));
 
-        // Remove and add an elemen
+        // Remove and add an element
         System.out.println("Could remove 10=" + l.remove(new Integer(10)));
 
         System.out.println("add 21 at position 5");

@@ -91,7 +91,7 @@ public class MyArrayList<E> implements MyList<E> {
      * O(n)
      */
     public void clear() {
-        for (int i = 0; i < items.length; i++) {
+        for (int i = 0; i < size; i++) {
             items[i] = null;
         }
         size = 0;
@@ -112,12 +112,13 @@ public class MyArrayList<E> implements MyList<E> {
     public int indexOf(Object o) {
         // If o is null (look for a null element in the array)
         if (o == null) {
-            return -1;
-        } else // o is an object (use equals)
-        {
-            for (int i = 0; i < items.length; i++) {
-                if (items[i].equals(o)) return i;
+            for (int i = 0; i < size; i++) {
+                if (items[i] == null) return i;
             }
+        }
+
+        for (int i = 0; i < size; i++) {
+               if (items[i].equals(o)) return i;
         }
 
         // If we get here, o is not in the list
@@ -140,14 +141,14 @@ public class MyArrayList<E> implements MyList<E> {
      */
     public boolean remove(int index) {
 
-        if (index < 0 || index >= this.size) {
+        if (index < 0 || index > this.items.length-1) {
             throw new IndexOutOfBoundsException();
         }
         E removed = this.items[index];
-        for (int i = index+1; i < this.size; i++) {
-            this.items[i] = this.items[i];
+        for (int i = index; i < this.size; i++) {
+            this.items[i] = this.items[i + 1];
         }
-        this.items[this.size-1] = null;
+        this.items[items.length-1] = null;
         this.size--;
         return true;
     }
@@ -171,25 +172,25 @@ public class MyArrayList<E> implements MyList<E> {
      */
     public boolean add(int index, E o) {
 
-        if (index == 0 || index > this.size) {
+        if (index < 0 || index > this.items.length-1) {
             throw new IndexOutOfBoundsException();
         }
 
         // one way: add at the end and then shift the elements around
-        if (size < items.length) {
-            items[size] = o;
-            size++;
-            return true;
-        }
 
         // Make room for the new element
         E[] temp = (E[]) new Object[items.length+1];
-        for (int i = 0; i < size; i++) {
-            temp[i] = items[i];
+        for (int i = 0; i <= size; i++) {
+            if (i < index) {
+                temp[i] = items[i];
+            } else if (i == index) {
+                temp[i] = o;
+            } else {
+                temp[i] = items[i-1];
+            }
         }
         items = temp;
         size++;
-        items[size] = o;
         return true;
 
     }
@@ -200,7 +201,7 @@ public class MyArrayList<E> implements MyList<E> {
      */
     public boolean equals(Object o)
     {
-        if (o != null && items.getClass().equals(o.getClass())) {
+        if (o != null && this.getClass() == (o.getClass())) {
             // o is an ArrayList
             MyArrayList temp = (MyArrayList) o;
             // if the number of elements is not the same, this and o are not the
@@ -261,14 +262,14 @@ public class MyArrayList<E> implements MyList<E> {
 
             index++;
             lastIndex++;
-            return list.get(lastIndex);
+            return (E) list.get(lastIndex);
         }
 
         /**
          * Removes the last object returned by next
          */
         public void remove() {
-            MyArrayList.this.remove(index);
+            MyArrayList.this.remove(lastIndex);
         }
     }
 
