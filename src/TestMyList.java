@@ -47,7 +47,7 @@ public class TestMyList {
         System.out.println("the list and the copy are the same: "
                 + l.equals(copy));
 
-        // Remove and add an element
+        // Remove and add an elemen
         System.out.println("Could remove 10=" + l.remove(new Integer(10)));
 
         System.out.println("add 21 at position 5");
@@ -164,13 +164,12 @@ public class TestMyList {
     /**
      * Returns a list as an instance of the given type
      */
-
     private static <E> MyList<E> createMyList(Class c) {
         if (c == MyArrayList.class) {
             return new MyArrayList<E>();
-        }/* else if (c == MyLinkedList.class) {
-            return new MyLinkedList<E>();
-        } */else {
+        //} else if (c == MyLinkedList.class) {
+            //return new MyLinkedList<E>();
+        } else {
             return null;
         }
     }

@@ -102,6 +102,9 @@ public class MyArrayList<E> implements MyList<E> {
      * O(1)
      */
     public E get(int index) {
+        if (index < 0 || index >= this.size) {
+            throw new IndexOutOfBoundsException();
+        }
         return items[index];
     }
 
@@ -141,8 +144,8 @@ public class MyArrayList<E> implements MyList<E> {
      */
     public boolean remove(int index) {
 
-        if (index < 0 || index > this.items.length-1) {
-            throw new IndexOutOfBoundsException();
+        if (index < 0 || index >= this.size) {
+            throw new IndexOutOfBoundsException("Index=" + index);
         }
         for (int i = index + 1; i < size; i++) {
             items[i-1] = items[i];
@@ -269,6 +272,9 @@ public class MyArrayList<E> implements MyList<E> {
          * Removes the last object returned by next
          */
         public void remove() {
+            if (this.lastIndex == -1) {
+                throw new IllegalStateException();
+            }
             MyArrayList.this.remove(lastIndex);
             index--;
             lastIndex--;
